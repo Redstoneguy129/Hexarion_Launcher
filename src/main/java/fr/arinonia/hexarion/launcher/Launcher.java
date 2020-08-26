@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import fr.arinonia.hexarion.launcher.game.GameRunner;
 import fr.arinonia.hexarion.launcher.game.file.FileManager;
 import fr.arinonia.hexarion.launcher.game.file.RamManager;
+import fr.arinonia.hexarion.launcher.game.file.UsernameSaver;
 import fr.arinonia.hexarion.launcher.profile.Profile;
 import fr.arinonia.hexarion.launcher.ui.LauncherFrame;
 import fr.arinonia.hexarion.launcher.updater.DownloadJob;
@@ -32,7 +33,7 @@ public class Launcher {
     private final FileManager fileManager = new FileManager("Hexarion");
     private final GameRunner gameRunner = new GameRunner(this);
     private final RamManager ramManager = new RamManager(this);
-
+    private final UsernameSaver saver = new UsernameSaver(this);
     private static final Gson GSON = new Gson();
 
     public void start() {
@@ -65,8 +66,8 @@ public class Launcher {
         Updater updater = new Updater();
         DownloadJob javaJob = new DownloadJob("Java",this.parent.getPanel());
         DownloadJob gameJob = new DownloadJob("game", this.parent.getPanel());
-        updater.addJobToDownload(new DownloadManager("http://dev.valkyria.fr/download/java/java_" + OperatingSystem.getCurrentPlatform().getName().toLowerCase() + ".json",javaJob,  fileManager.getRuntime()));
-        updater.addJobToDownload(new DownloadManager("http://hexarion.chaun14.fr/launcher/instance.json", gameJob,  fileManager.getGame()));
+        updater.addJobToDownload(new DownloadManager(Constants.DOWNLOAD_JAVA_URL,javaJob,  fileManager.getRuntime()));
+        updater.addJobToDownload(new DownloadManager(Constants.DOWNLOAD_GAME_URL, gameJob,  fileManager.getGame()));
 
         updater.setFileDeleter(true);
         new Thread(() -> {
@@ -103,5 +104,9 @@ public class Launcher {
 
     public RamManager getRamManager() {
         return ramManager;
+    }
+
+    public UsernameSaver getSaver() {
+        return saver;
     }
 }

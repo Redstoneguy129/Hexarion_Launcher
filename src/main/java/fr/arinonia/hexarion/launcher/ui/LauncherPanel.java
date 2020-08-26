@@ -2,6 +2,7 @@ package fr.arinonia.hexarion.launcher.ui;
 
 import com.azuriom.azauth.model.User;
 import fr.arinonia.hexarion.launcher.Launcher;
+import fr.arinonia.hexarion.launcher.game.file.UsernameSaver;
 import fr.arinonia.hexarion.launcher.ui.components.IconButton;
 import fr.arinonia.hexarion.launcher.ui.components.TexturedProgressBar;
 import fr.arinonia.hexarion.launcher.ui.ram.RamFrame;
@@ -17,12 +18,13 @@ import java.awt.*;
  * Created by Arinonia on 17/08/2020 inside the package - fr.arinonia.hexarion.launcher.ui
  */
 public class LauncherPanel extends JPanel implements DownloadListener {
+
     private final Launcher launcher;
 
     private final JButton closeButton = new IconButton("/images/controls/buttons/close.png", "/images/controls/buttons/close_hover.png");
     private final JButton playButton = new IconButton("/images/controls/buttons/play.png", "/images/controls/buttons/play_hover.png");
     private final JButton settingsButton = new IconButton("/images/controls/buttons/settings.png", "/images/controls/buttons/settings_hover.png");
-    private final JTextField usernameField = new JTextField("");
+    private final JTextField usernameField = new JTextField();
     private final JPasswordField passwordField = new JPasswordField("");
     private final JProgressBar progressBar = new TexturedProgressBar("/images/controls/bar/air.png", "/images/controls/bar/bar.png");
 
@@ -47,6 +49,7 @@ public class LauncherPanel extends JPanel implements DownloadListener {
         this.usernameField.setOpaque(false);
         this.usernameField.setForeground(new Color(48, 145, 255));
         this.usernameField.setFont(new Font("Arial", Font.BOLD, 26));
+        this.usernameField.setText(launcher.getSaver().getUsername());
         this.add(this.usernameField);
 
         this.passwordField.setBounds(300, 605, 290, 51);
@@ -102,7 +105,6 @@ public class LauncherPanel extends JPanel implements DownloadListener {
        this.passwordField.setText("");
 
        auth(username, password, this.launcher::launchGame);
-        //this.launcher.launchGame();
     }
 
     private void auth(final String username, final String password, final Callback callback) {
@@ -112,12 +114,13 @@ public class LauncherPanel extends JPanel implements DownloadListener {
 
                 this.launcher.getProfile().initAuth(user);
                 this.launcher.getProfile().setPassword(password);
-
+                this.launcher.getSaver().setUsername(username);
                 callback.callback();
             } catch (Exception ex) {
                 setEnableForm(true);
                 System.err.println("An error as occurred when you try to login.");
                 System.err.println(ex);
+                JOptionPane.showMessageDialog(null,"Une erreur est survenue durant la connexion","Hexarion-error login", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -142,13 +145,13 @@ public class LauncherPanel extends JPanel implements DownloadListener {
 
     @Override
     public void onDownloadJobProgressChanged(DownloadJob job) {
-        System.out.println("Téléchargement des " + job.getName() + ": " + job.getRemainingFiles().size() + " fichiers restants");
+        System.out.println("Download " + job.getName() + ": " + job.getRemainingFiles().size() + " files remaining");
         progressBar.setValue(job.getAllFiles().size() - job.getRemainingFiles().size());
     }
 
     @Override
     public void onDownloadJobStarted(DownloadJob job) {
-        System.out.println(job.getName() + " started");
+        System.out.println("'" + job.getName() + '"' +" job started to download");
         progressBar.setMaximum(job.getRemainingFiles().size());
     }
 }

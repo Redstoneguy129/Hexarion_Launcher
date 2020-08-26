@@ -45,7 +45,4 @@ public class FileManager {
     public File getRamFile(){
         return new File(createGameDir(), "ram.properties");
     }
-    public String getServerName() {
-        return serverName;
-    }
 }
