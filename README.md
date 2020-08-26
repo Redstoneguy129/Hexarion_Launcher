@@ -8,7 +8,7 @@
 
   
 
-## What is `Hexarion ?`
+## What is `Hexarion` ?
 
 Hexarion is a french modded pvp server with a futuristic theme, a great faction system, legendary items adding multiple effects and a lot more. Discover our Earth 35 000 years after our era
 
