@@ -32,7 +32,7 @@ _Libraries :_
 
 ## Contributing
 
-Arinonia: For all coding
+Arinonia: For all coding </br>
 Zobro: English translation (thx <3)
 
 ## Authors:
