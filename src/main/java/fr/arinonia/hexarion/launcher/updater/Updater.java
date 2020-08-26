@@ -1,10 +1,12 @@
 package fr.arinonia.hexarion.launcher.updater;
 
 import com.google.gson.Gson;
+import fr.arinonia.hexarion.launcher.Constants;
 import fr.arinonia.hexarion.launcher.updater.json.Data;
 import fr.arinonia.hexarion.launcher.updater.json.DataFile;
 import fr.arinonia.hexarion.launcher.utils.Util;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -22,6 +24,7 @@ public class Updater {
     private final List<String> ignoredFiles = Collections.synchronizedList(new ArrayList<String>());
     private final Queue<DownloadManager> needToDownload = new LinkedList<>();
     private boolean fileDeleter = false;
+    private boolean isInMaintenance = false;
 
 
     public void start(){
@@ -51,7 +54,9 @@ public class Updater {
         System.out.println("maintenanceMessage: " + data.getMaintenance().getMessage());
 
         if(data.getMaintenance().isMaintenance()){
-            //TODO
+            JOptionPane.showMessageDialog(null,"Une maintenance est en cours pour: " + data.getMaintenance().getMessage(), Constants.LAUNCHER_NAME + "-Maintenance", JOptionPane.INFORMATION_MESSAGE);
+            isInMaintenance = true;
+            return;
         }
 
         for (DataFile file : data.getFiles()){
@@ -164,4 +169,7 @@ public class Updater {
         return needToDownload;
     }
 
+    public boolean isInMaintenance() {
+        return isInMaintenance;
+    }
 }

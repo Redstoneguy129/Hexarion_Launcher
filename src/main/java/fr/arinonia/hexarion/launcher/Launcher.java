@@ -72,6 +72,7 @@ public class Launcher {
         updater.setFileDeleter(true);
         new Thread(() -> {
             updater.start();
+            if (updater.isInMaintenance())this.shutdown();
             gameRunner.launch();
             this.shutdown();
         }).start();
