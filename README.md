@@ -32,9 +32,8 @@ _Libraries :_
 
 ## Contributing
 
-  
-
-Just me for the moment.
+Arinonia: For all coding
+Zobro: English translation (thx <3)
 
 ## Authors:
 
