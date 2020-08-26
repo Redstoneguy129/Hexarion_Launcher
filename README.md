@@ -10,7 +10,8 @@
 
 ## What is `Hexarion ?`
 
-Hexarion is a French PvP-Faction Modé server focused on the futuristic theme. Discover a worked division system, legendary objects giving multiple effects and many other additions. Discover the planet Earth 35 000 years after our era ...
+Hexarion is a french modded pvp server with a futuristic theme, a great faction system, legendary items adding multiple effects and a lot more. Discover our Earth 35 000 years after our era
+
   
 
 ## Pre-requisites
