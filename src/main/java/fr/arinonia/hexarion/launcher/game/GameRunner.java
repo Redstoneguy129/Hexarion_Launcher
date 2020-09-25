@@ -23,7 +23,12 @@ public class GameRunner {
     public Process launch() {
         List<String> arguments = new ArrayList<>();
         StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append(this.launcher.getFileManager().getRuntime());
+
+        if (OperatingSystem.getCurrentPlatform() != OperatingSystem.MACOS)
+            sBuilder.append(this.launcher.getFileManager().getRuntime());
+        else
+            sBuilder.append(OperatingSystem.getCurrentPlatform().getJavaDir());
+
         sBuilder.append(File.separator);
         sBuilder.append("bin");
         sBuilder.append(File.separator);
@@ -74,9 +79,9 @@ public class GameRunner {
         builder.environment().remove("_JAVA_OPTIONS");
 
         try {
-            final Process p=builder.start();
+            final Process p = builder.start();
             this.launcher.getParent().setVisible(false);
-            BufferedReader br=new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
             StringBuilder sb = new StringBuilder();
             while((line=br.readLine())!=null) sb.append(line + "\n");

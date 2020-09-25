@@ -42,6 +42,9 @@ public enum OperatingSystem {
 
     public String getJavaDir() {
         final String separator = System.getProperty("file.separator");
+        if (getCurrentPlatform() == OperatingSystem.MACOS){
+            return System.getProperty("java.home");
+        }
         final String path = System.getProperty("java.home") + separator + "bin" + separator;
         if (getCurrentPlatform() == OperatingSystem.WINDOWS && new File(path + "javaw.exe").isFile()) {
             return path + "javaw.exe";
